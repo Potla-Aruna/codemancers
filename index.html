@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+    <div class="container">
+        <textarea placeholder="Enter Your Post Here" id="postContent" rows="10" cols="40"></textarea>
+        <br />
+        <br />
+
+        <input id="gifName" placeholder="Enter GIF name" type="text" />
+
+        <button id="searchGif">Search GIF</button>
+
+        <div id="gifContainer"></div>
+        <br />
+        <br />
+        <button id="postBtn">Post</button>
+    </div>
+
+    <hr />
+    <p>Created posts</p>
+    <ul id="postList"></ul>
+    <script>
+        let text = document.querySelector('#postContent');
+        let postBtn = document.querySelector('#postBtn');
+        let postList = document.querySelector('#postList');
+        let gifName = document.querySelector('#gifName');
+        let searchGif = document.querySelector('#searchGif');
+        let gifContainer = document.querySelector('#gifContainer');
+
+        let gif = document.querySelector('#gif');
+        let posts = [];
+
+        let selectedGifUrl = '';
+
+        postBtn.addEventListener('click', () => {
+            posts.push({
+                text: text.value,
+                gif: selectedGifUrl
+            });
+            updatePost(text.value, selectedGifUrl);
+            text.value = '';
+            gifName.value = '';
+            while (gifContainer.lastElementChild) {
+                gifContainer.removeChild(gifContainer.lastElementChild);
+            }
+        });
+
+        function updatePost(post, gifUrl) {
+            const li = document.createElement('li');
+
+            li.innerHTML = post;
+            if (gifUrl) {
+                let img = document.createElement('img');
+                img.id = 'gif';
+                img.style.width = '50px';
+                img.style.border = '1px solid black';
+                img.style.margin = '10px';
+                img.src = gifUrl;
+                li.appendChild(img);
+            }
+            li.style.border = '1px solid black';
+            li.style.margin = '10px';
+            li.style.textAlign = 'center'
+            postList.appendChild(li);
+        }
+
+        searchGif.addEventListener('click', () => {
+            while (gifContainer.lastElementChild) {
+                gifContainer.removeChild(gifContainer.lastElementChild);
+            }
+
+            let name = gifName.value;
+            //make api call to gify api here
+            // gifContainer.;
+
+            let res = [
+                'https://media.giphy.com/media/l44QumBtrDajNwEfe/giphy.gif',
+                'https://media.giphy.com/media/Ll88bcCbnV5U5UGsW7/giphy.gif',
+
+            ];
+
+            for (let i = 0; i < res.length; i++) {
+                let img = document.createElement('img');
+                img.id = 'gif';
+                img.style.width = '50px';
+                img.style.border = '1px solid black';
+                img.style.margin = '10px';
+                img.src = res[i];
+                img.onclick = onGifClick;
+                gifContainer.appendChild(img);
+            }
+
+            function onGifClick(e) {
+                selectedGifUrl = e.target.src;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
